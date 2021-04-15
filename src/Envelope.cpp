@@ -1,4 +1,4 @@
-#include "envelope.h"
+#include "Envelope.h"
 
 Envelope::Envelope(float attack, float decay, float sustain, float release, int samplerate) {
   this->attack = attack;
