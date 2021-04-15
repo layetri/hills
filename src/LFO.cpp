@@ -1,4 +1,4 @@
-#include "lfo.h"
+#include "LFO.h"
 double rate_scale = (log(200) - log(0.01)) / (1024 - 0);
 
 LFO::LFO(char shape, float rate, int samplerate) {
@@ -13,28 +13,28 @@ LFO::~LFO() {}
 
 void LFO::set(float rate, float shape_index, float multiplier, float pulse_width) {
   //setRate(exp(log(0.01) + rate_scale * (rate - 0)));
-  setRate(rate * 100);
+  setRate(rate);
   setShape((int) (shape_index * 6));
   setMultiplier(multiplier);
   setPulseWidth(pulse_width);
 }
 
 // Shape setter
-void LFO::setShape(int shape) {
-  this->shape = shape;
+void LFO::setShape(int n_shape) {
+  shape = n_shape;
 }
 // Rate setter
-void LFO::setRate(float rate) {
-  this->rate = rate;
+void LFO::setRate(float n_rate) {
+  rate = map(n_rate, 0., 1., 10, 200);
   calculatePhaseStep();
 }
 // Pulse width setter
-void LFO::setPulseWidth(float pulse_width) {
-  this->pulse_width = (pulse_width * 0.98) + 0.01;
+void LFO::setPulseWidth(float n_pulse_width) {
+  pulse_width = (float) ((n_pulse_width * 0.98) + 0.01);
 }
 // Multiplier setter
-void LFO::setMultiplier(float multiplier) {
-  this->multiplier = multiplier;
+void LFO::setMultiplier(float n_multiplier) {
+  multiplier = n_multiplier;
 }
 
 void LFO::incrementPhase() {
