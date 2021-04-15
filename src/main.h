@@ -2,8 +2,9 @@
 #include "knob.h"
 #include "led.h"
 
-#include "lfo.h"
-#include "envelope.h"
+#include "LFO.h"
+#include "Envelope.h"
+#include "RandomSequencer.h"
 
 #include <Audio.h>
 
@@ -13,6 +14,8 @@ LFO lfo(0, 10.0, samplerate);
 
 Envelope env_a(0.5, 0.5, 0.8, 0.5, samplerate);
 Envelope env_b(0.5, 0.5, 0.8, 0.5, samplerate);
+
+RandomSequencer rs(samplerate);
 
 Trigger control_mode(3, true);
 Trigger instrument_mode(2, true);
@@ -78,7 +81,35 @@ void checkButtons() {
 bool hold_trigger_a = false;
 bool hold_trigger_b = false;
 
-void handleEnvTriggers() {
+void handle_trigger(int channel) {
+  // Handle for Envelope mode
+  if(mode == 1) {
+    if(channel == 0) {
+      env_a.trigger();
+    } else if(channel == 1) {
+      env_b.trigger();
+    }
+  }
+  // Handle for Sequencer mode
+  else if(mode == 3) {
+    if(!rs.checkMode()) {
+      rs.tick();
+    }
+  }
+}
+
+void handle_release(int channel) {
+  // Handle for Envelope mode
+  if(mode == 1) {
+    if(channel == 0) {
+      env_a.trigger_release();
+    } else if(channel == 1) {
+      env_b.trigger_release();
+    }
+  }
+}
+
+void handleTriggers() {
   trigger_a.detect();
   trigger_b.detect();
 
@@ -87,9 +118,9 @@ void handleEnvTriggers() {
 
   if(stat_a != hold_trigger_a) {
     if(stat_a) {
-      env_a.trigger();
+      handle_trigger(0);
     } else {
-      env_a.trigger_release();
+      handle_release(0);
     }
 
     hold_trigger_a = stat_a;
@@ -97,9 +128,9 @@ void handleEnvTriggers() {
 
   if(stat_b != hold_trigger_b) {
     if(stat_b) {
-      env_b.trigger();
+      handle_trigger(1);
     } else {
-      env_b.trigger_release();
+      handle_release(1);
     }
 
     hold_trigger_b = stat_b;
