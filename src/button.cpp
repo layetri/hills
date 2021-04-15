@@ -1,4 +1,4 @@
-#include "button.h"
+#include "Header/button.h"
 
 Trigger::Trigger(int pin, bool debounce) {
   pinMode(pin, INPUT);

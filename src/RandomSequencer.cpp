@@ -5,7 +5,7 @@
 //
 
 //#define DEVMODE
-#include "RandomSequencer.h"
+#include "Header/RandomSequencer.h"
 
 RandomSequencer::RandomSequencer(int samplerate) {
   this->samplerate = samplerate;

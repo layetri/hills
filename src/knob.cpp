@@ -1,4 +1,4 @@
-#include "knob.h"
+#include "Header/knob.h"
 
 Knob::Knob(int pin) {
   pinMode(pin, INPUT);

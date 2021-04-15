@@ -1,4 +1,4 @@
-#include "LFO.h"
+#include "Header/LFO.h"
 double rate_scale = (log(200) - log(0.01)) / (1024 - 0);
 
 LFO::LFO(char shape, float rate, int samplerate) {
