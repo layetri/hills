@@ -15,5 +15,7 @@ The code and schematics in this repository are a proposed way of implementing th
 
 With that said, the reference design should be enough for any user who just wants to get this thing going. For starters:
 
+```TODO: Implement Getting Started guide```
+
 ## License
 Hills is designed, built and maintained by [Layetri](https://mt.layetri.nl/projects/hills) and is licensed under a GNU AGPLv3.0 license. Read ./LICENSE to see what you can and can't do.
