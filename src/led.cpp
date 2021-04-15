@@ -9,6 +9,14 @@ LED::LED(int pin) {
 
 LED::~LED() {}
 
+void LED::toggle() {
+  if(status) {
+    off();
+  } else {
+    on();
+  }
+}
+
 void LED::on() {
   digitalWrite(pin, HIGH);
   steady = true;

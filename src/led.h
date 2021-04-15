@@ -10,6 +10,7 @@ class LED {
     void cycle();
     void on();
     void off();
+    void toggle();
 
   private:
     bool status;
