@@ -25,7 +25,7 @@ void LFO::setShape(int n_shape) {
 }
 // Rate setter
 void LFO::setRate(float n_rate) {
-  rate = map(n_rate, 0., 1., 10, 200);
+  rate = map(n_rate, 0., 1., 0.01, 30.);
   calculatePhaseStep();
 }
 // Pulse width setter
