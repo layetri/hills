@@ -1,3 +1,6 @@
+#pragma once
+#define DEVMODE
+
 #include "button.h"
 #include "knob.h"
 #include "led.h"
@@ -6,7 +9,11 @@
 #include "Envelope.h"
 #include "RandomSequencer.h"
 
-#include <Audio.h>
+#include <Arduino.h>
+#include <MCP4922.h>
+#include <SPI.h>
+
+MCP4922 DAC(11,13,10,9);  // (MOSI,SCK,CS,LDAC)
 
 int samplerate = 44100;
 
@@ -25,15 +32,8 @@ Trigger trigger_b(0, false);
 
 Knob knobs[4] = {Knob(14), Knob(15), Knob(16), Knob(17)};
 
-LED c_mode_led(12);
-LED i_mode[4] = {LED(11), LED(10), LED(9), LED(8)};
-
-AudioSynthWaveformDc out_a;
-AudioSynthWaveformDc out_b;
-AudioOutputI2S i2s;
-
-AudioConnection patchCord1(out_a, 0, i2s, 0);
-AudioConnection patchCord2(out_b, 0, i2s, 1);
+LED c_mode_led(8);
+LED i_mode[4] = {LED(7), LED(6), LED(5), LED(4)};
 
 // Mode: 0 - LFO, 1 - Envelope, 2 - Tap, 3 - Drum Synth
 int mode = 0;
@@ -57,6 +57,9 @@ void checkButtons() {
     } else {
       input_mode = 0;
     }
+    #ifdef DEVMODE
+      Serial.println("Control button pressed");
+    #endif
 
     control_mode.setStatus(false);
   } else if(control_mode.getStatus() && cm_block) {
@@ -70,6 +73,10 @@ void checkButtons() {
     } else {
       mode = 0;
     }
+
+    #ifdef DEVMODE
+      Serial.println("Instrument button pressed");
+    #endif
 
     instrument_mode.setStatus(false);
   } else if(!instrument_mode.getStatus() && im_block) {

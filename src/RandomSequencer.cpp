@@ -5,6 +5,7 @@
 //
 
 //#define DEVMODE
+#define DAC_BITS 12
 #include "Header/RandomSequencer.h"
 
 RandomSequencer::RandomSequencer(int samplerate) {
@@ -98,13 +99,14 @@ void RandomSequencer::process() {
 
 // Assign a new value to the current pattern place
 void RandomSequencer::assign() {
-  int val = random(4096);
+  int val = random(pow(2, DAC_BITS));
 
   // Quantise chromatically
   if(quantise < 0.5) {
     // Calculate quantised value
     //    -> 68.25 = (4095 / 5) / 12
-    int quantised = val - (((val * 100) % 6825) / 100);
+    int divisor = (int) (((pow(2, DAC_BITS) / 5) / 12) * 100);
+    int quantised = val - (((val * 100) % divisor) / 100);
     // Calculate weighed average for final value
     pattern[position] = quantised * quantisation_factor + val * (1 - quantisation_factor);
   } else {

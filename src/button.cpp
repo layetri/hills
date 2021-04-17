@@ -15,7 +15,7 @@ void Trigger::detect() {
   if(timer == 0 || !debounce) {
     if (digitalRead(pin) == HIGH) {
       setStatus(true);
-      timer = 22100;
+      timer = 11050;
     } else {
       setStatus(false);
     }
